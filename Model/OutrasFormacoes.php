@@ -46,43 +46,54 @@ class OutrasFormacoes
     {
         return $this->descricao;
     }
-    public function inserirBD(){
-            require_once 'ConexaoBD.php';
-            
-            $con = new ConexaoBD();
-            $conn = $con->conectar();
-            if ($conn->connect_error){
-                die("Connection failed: " . $conn->connect_error);
-            }
-            $sql = "INSERT INTO outrasformacoes (idusuario, inicio, fim, descricao)
-            VALUES ('".$this->idusuario."','".$this->inicio."','".$this->fim."','".$this->descricao."')";
+    public function inserirBD()
+    {
+        require_once 'ConexaoBD.php';
 
-            if ($conn->query($sql) === TRUE){
-                $this->id = mysqli_insert_id($conn);
-                $conn->close();
-                return TRUE;
-            } else {
-                $conn->close();
-                return FALSE;
-            }
+        $con = new ConexaoBD();
+        $conn = $con->conectar();
+        if ($conn->connect_error)
+        {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        $sql = "INSERT INTO outrasformacoes (idusuario, inicio, fim, descricao)
+            VALUES ('" . $this->idusuario . "','" . $this->inicio . "','" . $this->fim . "','" . $this->descricao . "')";
+
+        if ($conn->query($sql) === true)
+        {
+            $this->id = mysqli_insert_id($conn);
+            $conn->close();
+            return true;
+        }
+        else
+        {
+            $conn->close();
+            return false;
+        }
+    }
+
+    public function excluirBD($id)
+    {
+        require_once 'ConexaoBD.php';
+
+        $con = new ConexaoBD();
+        $conn = $con->conectar();
+        if ($conn->connect_error)
+        {
+            die("Connection failed: " . $conn->connect_error);
         }
 
-        public function excluirBD($id){
-            require_once 'ConexaoBD.php';
+        $sql = "DELETE FROM outrasformacoes WHERE idoutrasformacoes = '" . $id . "';";
 
-            $con = new ConexaoBD();
-            $conn = $con->conectar();
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-
-            $sql = "DELETE FROM outrasformacoes WHERE idoutrasformacoes = '".$id."';";
-            
-            if ($conn->query($sql) === TRUE) {
-                $conn->close();
-                return TRUE;
-            } else {
-                $conn->close();
-                return FALSE;
-            }
+        if ($conn->query($sql) === true)
+        {
+            $conn->close();
+            return true;
         }
+        else
+        {
+            $conn->close();
+            return false;
+        }
+    }
+}
